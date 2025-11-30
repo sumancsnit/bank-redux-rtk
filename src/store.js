@@ -1,3 +1,5 @@
+import { createStore } from 'redux';
+
 const initialState = {
   balance: 0,
   loan: 0,
@@ -32,3 +34,17 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
+const store = createStore(reducer, initialState);
+
+store.dispatch({ type: 'account/deposit', payload: 1000 });
+console.log(store.getState());
+store.dispatch({ type: 'account/withdraw', payload: 200 });
+console.log(store.getState());
+store.dispatch({
+  type: 'account/requestLoan',
+  payload: { amount: 5000, purpose: 'Car' },
+});
+console.log(store.getState());
+store.dispatch({ type: 'account/payLoan' });
+console.log(store.getState());
