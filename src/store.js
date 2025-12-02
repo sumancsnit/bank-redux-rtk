@@ -37,14 +37,34 @@ const reducer = (state, action) => {
 
 const store = createStore(reducer, initialState);
 
-store.dispatch({ type: 'account/deposit', payload: 1000 });
-console.log(store.getState());
-store.dispatch({ type: 'account/withdraw', payload: 200 });
-console.log(store.getState());
-store.dispatch({
+// store.dispatch({ type: 'account/deposit', payload: 1000 });
+// console.log(store.getState());
+// store.dispatch({ type: 'account/withdraw', payload: 200 });
+// console.log(store.getState());
+// store.dispatch({
+//   type: 'account/requestLoan',
+//   payload: { amount: 5000, purpose: 'Car' },
+// });
+// console.log(store.getState());
+// store.dispatch({ type: 'account/payLoan' });
+// console.log(store.getState());
+
+const deposit = (amount) => ({ type: 'account/deposit', payload: amount });
+const withdraw = (amount) => ({ type: 'account/withdraw', payload: amount });
+const requestLoan = (amount, purpose) => ({
   type: 'account/requestLoan',
-  payload: { amount: 5000, purpose: 'Car' },
+  payload: { amount, purpose },
 });
+const payLoan = () => ({ type: 'account/payLoan' });
+const setLoading = (isLoading) => ({ type: 'setLoading', payload: isLoading });
+
+store.dispatch(deposit(1000));
+store.dispatch(withdraw(200));
+store.dispatch(requestLoan(5000, 'Car'));
 console.log(store.getState());
-store.dispatch({ type: 'account/payLoan' });
+
+store.dispatch(payLoan());
+store.dispatch(setLoading(true));
 console.log(store.getState());
+
+export { store, deposit, withdraw, requestLoan, payLoan, setLoading };
