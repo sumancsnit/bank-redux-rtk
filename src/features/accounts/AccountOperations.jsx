@@ -1,46 +1,19 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { deposit, payLoan, requestLoan, withdraw } from '../customers/accountSlice';
 
-const AccountOperations = () => {
-  const dispatch = useDispatch();
-  const {
-    loan: currentLoan,
-    loanPurpose: currentLoanPoupose,
-    isLoading,
-  } = useSelector((state) => state.account);
+function AccountOperations() {
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const [loanAmount, setLoanAmount] = useState('');
   const [loanPurpose, setLoanPurpose] = useState('');
   const [currency, setCurrency] = useState('USD');
 
-  const handleDeposit = () => {
-    if (depositAmount) {
-      dispatch(deposit(depositAmount, currency));
-      setDepositAmount('');
-      setCurrency('USD');
-    }
-  };
+  function handleDeposit() {}
 
-  const handleWithdrawal = () => {
-    if (withdrawalAmount) {
-      dispatch(withdraw(withdrawalAmount));
-      setWithdrawalAmount('');
-    }
-  };
+  function handleWithdrawal() {}
 
-  const handleRequestLoan = () => {
-    if (loanAmount && loanPurpose) {
-      dispatch(requestLoan(loanAmount, loanPurpose));
-      setLoanAmount('');
-      setLoanPurpose('');
-    }
-  };
+  function handleRequestLoan() {}
 
-  const handlePayLoan = () => {
-    dispatch(payLoan());
-  };
+  function handlePayLoan() {}
 
   return (
     <div>
@@ -62,9 +35,7 @@ const AccountOperations = () => {
             <option value='GBP'>British Pound</option>
           </select>
 
-          <button disabled={isLoading} onClick={handleDeposit}>
-            {isLoading ? 'Converting...' : `Deposit ${depositAmount}`}
-          </button>
+          <button onClick={handleDeposit}>Deposit {depositAmount}</button>
         </div>
 
         <div>
@@ -94,17 +65,14 @@ const AccountOperations = () => {
           />
           <button onClick={handleRequestLoan}>Request loan</button>
         </div>
-        {!!currentLoan && (
-          <div>
-            <span>
-              Pay back ${currentLoan} {currentLoanPoupose}
-            </span>
-            <button onClick={handlePayLoan}>Pay loan</button>
-          </div>
-        )}
+
+        <div>
+          <span>Pay back $X</span>
+          <button onClick={handlePayLoan}>Pay loan</button>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default AccountOperations;
