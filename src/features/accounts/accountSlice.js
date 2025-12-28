@@ -51,7 +51,7 @@ const deposit = (amount, currency) => {
     const data = await response.json();
     const convertedAmount = (amount * data.rates['USD']).toFixed(2);
     // return action
-    dispatch({ type: 'account/deposit', payload: convertedAmount });
+    dispatch({ type: 'account/deposit', payload: +convertedAmount });
   };
 };
 const withdraw = (amount) => ({ type: 'account/withdraw', payload: amount });
