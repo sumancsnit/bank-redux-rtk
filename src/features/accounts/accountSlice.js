@@ -40,10 +40,25 @@ const accountSlice = createSlice({
   },
 });
 
-export const { deposit, withdraw, requestLoan, payLoan, setLoading } =
+export const { withdraw, requestLoan, payLoan, setLoading } =
   accountSlice.actions;
 
 export default accountSlice.reducer;
+
+export const deposit = (amount, currency) => {
+  if (currency === 'USD') return { type: 'account/deposit', payload: amount };
+  return async (dispatch, getState) => {
+    dispatch({ type: 'setLoading', payload: true });
+    // API Call
+    const response = await fetch(
+      `https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=USD`
+    );
+    const data = await response.json();
+    const convertedAmount = (amount * data.rates['USD']).toFixed(2);
+    // return action
+    dispatch({ type: 'account/deposit', payload: +convertedAmount });
+  };
+};
 
 // Previous Redux code for reference:
 
